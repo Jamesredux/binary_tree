@@ -22,7 +22,6 @@ class BinaryTree
 		array.shuffle!
 		@root = Node.new(array.shift)
 
-
 		array.each do |x|
 			insert_node(x)
 		end	
@@ -74,7 +73,7 @@ class BinaryTree
 					queue<<node.right if node.right
 					search_queue(queue, value)
 						
-				end	
+			end	
 		end
 	end
 
@@ -100,7 +99,6 @@ class BinaryTree
 		else
 			dfs_rec(target, node.right)
 		end
-
 	end
 
 
