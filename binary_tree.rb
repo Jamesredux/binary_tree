@@ -13,6 +13,7 @@ end
 
 class BinaryTree
 
+	# Build Tree #
 	def initialize
 		@root = nil
 	end
@@ -48,7 +49,9 @@ class BinaryTree
 		end		
 	end
 
-	def breadth_search(value)
+	#Traverse and search tree #
+
+	def breadth_first_search(value)
 		queue = [@root]
 		search_queue(queue, value)
 	end
@@ -59,16 +62,47 @@ class BinaryTree
 			return nil
 		else	
 			node = queue.shift #take first element out
-			queue<<node.left unless node.left.nil? 
-			queue<<node.right unless node.right.nil? 
-				if node.value == value
+			compare = node.value <=> value
+				case compare
+				when 0	
 					puts "Value present in tree"
 					return node
-				else
-					search_queue(queue, value)	
+				when 1 
+					queue<<node.left if node.left
+					search_queue(queue, value)
+				when -1
+					queue<<node.right if node.right
+					search_queue(queue, value)
+						
 				end	
 		end
 	end
+
+	def depth_first_search(target) 
+		stack = [@root]
+			loop do
+				break if stack.empty?
+				node = stack.shift
+				return node if node.value == target 
+				stack.unshift node.left if node.left
+				stack.unshift node.right if node.right
+			end	
+			puts "value not in this tree"
+			return
+	end
+
+	def dfs_rec(target, node = @root)
+		return nil if node == nil
+		return node if node.value == target
+
+		if node.value > target
+			dfs_rec(target, node.left)
+		else
+			dfs_rec(target, node.right)
+		end
+
+	end
+
 
 
 end
@@ -77,6 +111,7 @@ end
 
 
 test = BinaryTree.new
-test.build_tree([8,6,10,7,3,12,17,1,9,22,88,14,5,76,33])
+test.build_tree([10,5,15,54,3,2,55,3,12,9,76])
 puts test.inspect
-puts test.breadth_search(7)
+puts test.breadth_first_search(3)
+puts test.dfs_rec(3)
